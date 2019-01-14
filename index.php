@@ -50,6 +50,12 @@ $resultA = $connection->query($a);
 while ($row = mysqli_fetch_array($resultA)) {
     $data[] = $row['niveau'];
 }
+
+$b = "SELECT niveau FROM eleves_competences, competences WHERE competences.id = 2 AND eleves_competences.competences_id = competences.id";
+$resultB = $connection->query($b);
+while ($row = mysqli_fetch_array($resultB)) {
+    $dataB[] = $row['niveau'];
+}
 ?>
 
 
@@ -90,11 +96,11 @@ while ($row = mysqli_fetch_array($resultA)) {
         },
 
         xAxis: {
-            tickInterval: 45,
+            tickInterval: 1,
             min: 0,
-            max: 360,
+            max: 10,
             labels: {
-                format: '{value}°'
+                format: '{value}'
             }
         },
 
@@ -105,7 +111,7 @@ while ($row = mysqli_fetch_array($resultA)) {
         plotOptions: {
             series: {
                 pointStart: 0,
-                pointInterval: 45
+                pointInterval: 1
             },
             column: {
                 pointPadding: 0,
@@ -114,18 +120,14 @@ while ($row = mysqli_fetch_array($resultA)) {
         },
 
         series: [{
-            type: 'column',
-            name: 'Column',
+            type: 'line',
+            name: 'CSS',
             data: [<?php echo join($data, ',')?>],
             pointPlacement: 'between'
         }, {
             type: 'line',
-            name: 'Line',
-            data: [1, 2, 3, 4, 5, 6, 7, 8]
-        }, {
-            type: 'area',
-            name: 'Area',
-            data: [1, 8, 2, 7, 3, 6, 4, 5]
+            name: 'HTML',
+            data: [<?php echo join($dataB, ',')?>]
         }]
     });
 </script>
